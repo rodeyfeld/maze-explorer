@@ -72,7 +72,6 @@ class Maze(arcade.Window):
         self.wall_list.update()
         # All walls that player is currently colliding with
         self.collisions = self.player.collides_with_list(self.wall_list)
-        print(self.collisions)
         if self.collisions:
             # If player sprite hits wall stop speed and move them to location previous to moving
             for wall in self.collisions:
