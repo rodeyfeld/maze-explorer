@@ -10,7 +10,7 @@ class Tile(arcade.Sprite):
         'W': 'E',
     }
 
-    def __init__(self, asset, scaling, y, x):
+    def __init__(self, asset, scaling, x, y, maze_width, maze_length):
         super().__init__(asset, scaling)
         self.walls = {
             'N': True,
@@ -18,11 +18,11 @@ class Tile(arcade.Sprite):
             'S': True,
             'W': True,
         }
-        self.y = y
         self.x = x
+        self.y = y
         self.visited = False
-        self.center_y = y * 25 + 12.5
         self.center_x = x * 25 + 12.5
+        self.center_y = (maze_length - y) * 25 + 12.5
 
     def destroy_wall(self, wall, mirror_tile):
         self.walls[wall] = False

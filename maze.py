@@ -43,11 +43,29 @@ class Maze(arcade.Window):
         self.wall_list = arcade.SpriteList()
         arcade.set_background_color(arcade.color.GREEN)
 
+    def __str__(self):
+        maze_rows = ['-' * self.len_y * 2]
+        for y in range(self.len_y):
+            maze_row = ['|']
+            for x in range(self.len_x):
+                if self.map[y][x].walls['E']:
+                    maze_row.append(' |')
+                else:
+                    maze_row.append('  ')
+            maze_rows.append(''.join(maze_row))
+            maze_row = ['|']
+            for x in range(self.len_x):
+                if self.map[y][x].walls['S']:
+                    maze_row.append('00')
+                else:
+                    maze_row.append(' 0')
+            maze_rows.append(''.join(maze_row))
+        return '\n'.join(maze_rows)
+
     def setup(self):
         self.create_blank_map()
         self.create_maze()
         self.get_walls()
-        print(self.map)
 
     def on_draw(self):
         arcade.start_render()
@@ -56,9 +74,6 @@ class Maze(arcade.Window):
 
     def on_update(self, delta_time):
         """ Movement and game logic """
-
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
         self.tile_list.update()
         self.wall_list.update()
 
@@ -91,7 +106,7 @@ class Maze(arcade.Window):
         for y in range(0, self.len_y):
             self.map.append([])
             for x in range(0, self.len_x):
-                tile = Tile("./assets/tile.png", 1, y, x)
+                tile = Tile("./assets/tile.png", 1, x, y, self.len_x-1, self.len_y-1)
                 self.map[y].append(tile)
                 self.tile_list.append(tile)
 
@@ -101,9 +116,10 @@ class Maze(arcade.Window):
                 print(tile.walls)
                 for key, value in tile.walls.items():
                     if value:
-                        wall = Wall(WALL_OPTIONS[key]['asset'], 1, tile.center_y + WALL_OPTIONS[key]['y_offset'],
-                                    tile.center_x + WALL_OPTIONS[key]['x_offset'])
-                        print(key, tile.center_y, wall.center_y, wall.center_x)
+                        wall = Wall(WALL_OPTIONS[key]['asset'], 1, tile.center_x + WALL_OPTIONS[key]['x_offset'],
+                                    tile.center_y + WALL_OPTIONS[key]['y_offset'])
+                        print(key, tile.x, tile.y)
+                        print(key,  tile.center_x, tile.center_y, wall.center_x, wall.center_y)
                         self.wall_list.append(wall)
 
     def create_maze(self):
