@@ -156,7 +156,13 @@ class Maze(arcade.Window):
         for y in range(0, self.len_y):
             self.map.append([])
             for x in range(0, self.len_x):
-                tile = Tile("./assets/tile.png", 1, x, y, self.len_x-1, self.len_y-1)
+                if y == 0 and x == 0:
+                    asset = "./assets/start.png"
+                elif y == self.len_x - 1 and x == self.len_x - 1:
+                    asset = "./assets/end.png"
+                else:
+                    asset = "./assets/tile.png"
+                tile = Tile(asset, .25, x, y, self.len_x-1, self.len_y-1)
                 self.map[y].append(tile)
                 self.tile_list.append(tile)
 
