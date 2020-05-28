@@ -2,8 +2,10 @@ import arcade
 
 TILE_SIZE = 100
 
+
 class Tile(arcade.Sprite):
 
+    # Opposite directions for each direction
     mirror_directions = {
         'N': 'S',
         'E': 'W',
@@ -13,6 +15,7 @@ class Tile(arcade.Sprite):
 
     def __init__(self, asset, scaling, x, y, maze_length):
         super().__init__(asset, scaling)
+        # TODO: Replace booleans with objects
         self.walls = {
             'N': True,
             'E': True,
@@ -27,5 +30,6 @@ class Tile(arcade.Sprite):
 
     def destroy_wall(self, wall, mirror_tile):
         self.walls[wall] = False
+        # Remove current wall and the wall mirrored by it
         mirror_tile.walls[Tile.mirror_directions[wall]] = False
 
